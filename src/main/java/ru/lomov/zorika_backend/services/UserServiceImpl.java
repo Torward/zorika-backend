@@ -78,4 +78,9 @@ public class UserServiceImpl implements UserService {
     public List<AppUser> searchUser(String query) {
         return userRepository.searchUser(query);
     }
+
+    @Override
+    public void delete(Long userId) {
+        userRepository.deleteById(userId);
+    }
 }

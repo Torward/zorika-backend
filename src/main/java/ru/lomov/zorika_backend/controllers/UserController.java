@@ -54,12 +54,22 @@ public class UserController {
         return new ResponseEntity<>(userDto, HttpStatus.ACCEPTED);
     }
 @PutMapping("/{userId}/follow")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long userId, @RequestHeader("Authorization") String jwt) throws UserException{
+    public ResponseEntity<UserDto> followUser(@PathVariable Long userId, @RequestHeader("Authorization") String jwt) throws UserException{
         AppUser reqUser = userService.findUserProfileByJwt(jwt);
         AppUser user = userService.followUser(userId, reqUser);
         UserDto userDto = UserDtoMapper.userToDto(user);
         userDto.setFollowed(UserUtil.isFollowedByReqUser(reqUser, user));
         return new ResponseEntity<>(userDto, HttpStatus.ACCEPTED);
     }
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> deleteUserById(@PathVariable Long userId, @RequestHeader("Authorization") String jwt) throws UserException{
+        AppUser reqUser = userService.findUserProfileByJwt(jwt);
+        AppUser user = userService.findUserById(userId);
+        if (reqUser.equals(user)){
+            userService.delete(user.getUserId());
+        }
+        return new ResponseEntity<>("Профиль удалён", HttpStatus.ACCEPTED);
+    }
 
 }
+

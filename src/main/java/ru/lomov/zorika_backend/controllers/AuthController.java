@@ -10,10 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.lomov.zorika_backend.config.JwtProvider;
 import ru.lomov.zorika_backend.entities.AppUser;
 import ru.lomov.zorika_backend.entities.Verification;
@@ -24,7 +21,7 @@ import ru.lomov.zorika_backend.services.CustomUserDetailsServiceImplementation;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping(value = "/auth")
 public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -47,7 +44,7 @@ public class AuthController {
             createdUser.setPassword(passwordEncoder.encode(password));
             createdUser.setBirthDate(birthDate);
             createdUser.setVerification(new Verification());
-            AppUser savedUser = userRepository.save(createdUser);
+           userRepository.save(createdUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtProvider.generateToken(authentication);
@@ -55,7 +52,7 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PostMapping("/signIn")
+    @PostMapping("/signin")
     public ResponseEntity<AuthResponse> signIn(@RequestBody AppUser user){
         String username = user.getEmail();
         String password = user.getPassword();
@@ -70,7 +67,7 @@ public class AuthController {
         if (userDetails == null){
             throw new BadCredentialsException("Неверное имя пользователя!");
         }
-        if (passwordEncoder.matches(password, userDetails.getPassword())){
+        if (!passwordEncoder.matches(password, userDetails.getPassword())){
             throw new BadCredentialsException("Неверные имя пользователя или пароль...");
         }
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

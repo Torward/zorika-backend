@@ -11,4 +11,5 @@ public interface UserService {
     AppUser updateUser(Long userId, AppUser user) throws UserException;
     AppUser followUser(Long userId, AppUser user) throws UserException;
     List<AppUser> searchUser(String query);
+    void delete(Long userId);
 }
