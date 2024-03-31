@@ -52,7 +52,7 @@ public class AppConfig{
             cfg.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
             cfg.setAllowedHeaders(Collections.singletonList("*"));
             cfg.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
-            cfg.setMaxAge(36000000L);
+            cfg.setMaxAge(3600000000L);
             return cfg;
         };
     }

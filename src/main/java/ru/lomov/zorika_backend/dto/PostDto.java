@@ -20,6 +20,6 @@ public class PostDto {
     private int totalReposts;
     private boolean isLiked;
     private boolean isReposted;
-    private List<Long> repostUsersId = new ArrayList<>();
-    private List<PostDto> replyPost = new ArrayList<>();
+    private List<Long> repostUsersId;
+    private List<PostDto> replyPosts;
 }

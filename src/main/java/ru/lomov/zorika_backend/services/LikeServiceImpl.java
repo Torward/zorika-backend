@@ -25,7 +25,9 @@ public class LikeServiceImpl implements LikeService{
             likeRepository.deleteById(isLikeExist.getLikeId());
             return isLikeExist;
         }
-        Post post = new Post();
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new PostException("Post not found with id: " + postId));
+
         AppLike like = new AppLike();
         like.setPost(post);
         like.setAppUser(user);

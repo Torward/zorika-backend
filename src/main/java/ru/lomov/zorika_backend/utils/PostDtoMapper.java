@@ -29,7 +29,7 @@ public class PostDtoMapper {
                 .isLiked(isLiked)
                 .isReposted(isReposted)
                 .repostUsersId(repostUserId)
-                .replyPost(postToDto(post.getReplyPosts(), reqUser))
+                .replyPosts(postToDto(post.getReplyPosts(), reqUser))
                 .video(post.getVideo())
                 .build();
         return postDto;
@@ -64,6 +64,7 @@ public class PostDtoMapper {
                 .isLiked(isLiked)
                 .isReposted(isReposted)
                 .repostUsersId(repostUserId)
+                .replyPosts(postToDto(post.getReplyPosts(), reqUser))
                 .video(post.getVideo())
                 .build();
         return postDto;

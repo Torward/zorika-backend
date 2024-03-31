@@ -64,8 +64,10 @@ public class PostServiceImpl implements PostService {
         post.setReply(true);
         post.setPost(false);
         post.setReplyFor(replyFor);
+
         Post savedReply = postRepository.save(post);
-        post.getReplyPosts().add(savedReply);
+//        post.getReplyPosts().add(savedReply);
+        replyFor.getReplyPosts().add(savedReply);
         postRepository.save(replyFor);
         return replyFor;
     }
@@ -92,6 +94,5 @@ public class PostServiceImpl implements PostService {
             throw new UserException("Вы не можете удалять пост других пользователей");
         }
         postRepository.deleteById(post.getPostId());
-
     }
 }
